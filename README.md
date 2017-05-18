@@ -14,6 +14,8 @@ pm2 set pm2-hipchat:room ROOM_ID
 
 ## Configure
 
+This works for HipChat v1 api.
+
 The following events can be subscribed to:
 
 - log - All standard out logs from your processes. Default: false
@@ -35,6 +37,12 @@ pm2 set pm2-hipchat:log true
 pm2 set pm2-hipchat:error false
 ```
 
+Setting the user name that shows up on HipChat:
+
+```
+pm2 set pm2-hipchat:from BuildSlave
+```
+
 Turn on visual notifications:
 
 ```
@@ -46,7 +54,7 @@ pm2 set pm2-hipchat:notify true
 In lieu of a formal styleguide, take care to maintain the existing coding style. Add unit tests for any new or changed functionality. Lint and test your code.
 
 ## Release History
-
+- 0.1.0 add option to specify from names and some code clean up
 - 0.0.3 replace slack ref leftovers
 - 0.0.2 replace slack ref leftovers
 - 0.0.1 Initial Release

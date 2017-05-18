@@ -27,7 +27,9 @@ function send(message) {
 
     var name = message.name;
     var event = message.event;
-    var description = message.description;
+    var a = message.description.split('\\n')
+    a.pop();
+    var description = a.join('<br />').replace('"', '').replace(/\\"/g, ''); // cleanup description
 
     // If a api_key is not set, we do not want to continue and nofify the user that it needs to be set
     if (!conf.api_key) return console.error("There is no hipchat API key set, please set the API key: 'pm2 set pm2-hipchat:api_key YOUR_API_KEY'");
@@ -44,15 +46,18 @@ function send(message) {
     // Options for the post request
     var options = {
         room: conf.room,
-        from: os.hostname(),
-        message: name + ' - ' + event + ' - ' + description,
+        from: conf.from || os.hostname(),
+        msg_format: 'html',
+        message: os.hostname() + ': ' + name + ' - <strong>' + event + '</strong><br><br>' + description,
         color: color,
         notify: !!conf.notify
     };
 
     // Finally, make the post message to the Hipchat
-    HC.postMessage(options, function(data) {
+    HC.postMessage(options, function(data, buffer) {
       // Message has been sent!
+      console.log(data);
+      console.log(buffer);
     });
 }
 
